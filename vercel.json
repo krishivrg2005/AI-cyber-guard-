@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm --filter @workspace/ai-cyberguard build && rm -rf public && cp -R artifacts/ai-cyberguard/dist/public public",
+  "framework": null
+}
