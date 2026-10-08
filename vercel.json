@@ -1,6 +1,53 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm --filter @workspace/ai-cyberguard build && rm -rf public && cp -R artifacts/ai-cyberguard/dist/public public",
-  "framework": null
+  "services": {
+    "app": {
+      "root": ".",
+      "runtime": "node"
+    },
+    "ai-cyberguard": {
+      "root": "artifacts/ai-cyberguard",
+      "framework": "vite"
+    },
+    "api-server": {
+      "root": "artifacts/api-server",
+      "framework": "express",
+      "bindings": [
+        {
+          "type": "service",
+          "service": "ml-engine",
+          "format": "url",
+          "env": "ML_ENGINE_URL"
+        }
+      ]
+    },
+    "ml-engine": {
+      "root": "services/ml-engine",
+      "runtime": "python"
+    },
+    "mockup-sandbox": {
+      "root": "artifacts/mockup-sandbox",
+      "framework": "vite"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": {
+        "service": "api-server"
+      }
+    },
+    {
+      "source": "/ws",
+      "destination": {
+        "service": "api-server"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "ai-cyberguard"
+      }
+    }
+  ]
 }
