@@ -19,7 +19,8 @@
     },
     "ml-engine": {
       "root": "services/ml-engine",
-      "runtime": "python"
+      "runtime": "python",
+      "entrypoint": "main.py"
     },
     "mockup-sandbox": {
       "root": "artifacts/mockup-sandbox",
